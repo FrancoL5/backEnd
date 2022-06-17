@@ -25,5 +25,6 @@ app.get("/productos", (req, res) => {
 
 app.get("/productos/producto-:id", (req, res) => {
     res.render(`productos/producto-${req.params.id}`, {url:req.url})
+
     console.log("estoy en " + req.url)
 })
