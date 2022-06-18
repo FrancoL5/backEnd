@@ -14,4 +14,3 @@ app.listen(3000, () => console.log("estoy vivo") )
 
 app.use("/", index)
 app.use("/usuario", formularioUser)
-

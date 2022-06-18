@@ -1,7 +1,7 @@
-<h1> Bienvenido: <%= usuario %> </h1>
+<%- include("../partials/bienvenido.ejs") %> 
 <form action=<%="/usuario/bienvenido/"+usuario  %>  method="post">
     <label for="mostrarC"> Ingrese su contraseña para que la muestre</label>
     <br>
-    <input type="password" name="mosrtarC" id="MostrarC" placeholder="Su contraseña">
+    <input type="password" name="mostrarC" id="MostrarC" placeholder="Su contraseña">
     <button type="submit">enviar</button>
 </form>
