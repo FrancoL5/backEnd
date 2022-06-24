@@ -29,18 +29,14 @@ app.get(
 	"/usuario",
 	(req, res, next) => {
 		console.log(req.session);
-		if (req.session.user) {
-			next();
+		if (req.session.user && validateSessionUser(req.session)) {
+				res.redirect("/usuario/bievenido");
 		} else {
-			res.sendFile(path.resolve("views", "usuario.html"));
+			next();
 		}
 	},
 	(req, res) => {
-        if(validateSessionUser(req.session)){
-            res.render(path.resolve("views", "partials", "bienvenido.ejs"), req.session.user);
-        }else{
             res.sendFile(path.resolve("views", "usuario.html"));
-        }
 	}
 );
 app.post("/usuario/bienvenido", (req, res, next) => {
