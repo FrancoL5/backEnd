@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const validateUser = require("../controller/validateUser");
 const bcrypt = require("bcrypt");
 const validateSessionUser = require("../controller/validateSessionUser");
+const router = require("../routers/usuario")
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -25,27 +26,30 @@ app.use(morgan("dev"));
 app.get("/", (req, res) => {
 	res.sendFile(path.resolve("views", "index.html"));
 });
-app.get(
-	"/usuario",
-	(req, res, next) => {
-		console.log(req.session);
-		if (req.session.user && validateSessionUser(req.session)) {
-				res.redirect("/usuario/bievenido");
-		} else {
-			next();
-		}
-	},
-	(req, res) => {
-            res.sendFile(path.resolve("views", "usuario.html"));
-	}
-);
-app.post("/usuario/bienvenido", (req, res, next) => {
-    const {usuario, contrasenia} = req.body
-    if(validateUser(usuario, bcrypt.hashSync(contrasenia, 10))){
-        res.render(path.resolve("views", "partials", "bienvenido.ejs"),{usuario: usuario})
-    } else{
-        req.session.user = {usuario, contrasenia}
-        res.render(path.resolve("views", "partials", "bienvenido.ejs"),{usuario: usuario})
-    }
-});
+
+app.use("/usuario",router)
+
+// app.get(
+// 	"/usuario",
+// 	(req, res, next) => {
+// 		console.log(req.session);
+// 		if (req.session.user && validateSessionUser(req.session)) {
+// 				res.redirect("/usuario/bievenido");
+// 		} else {
+// 			next();
+// 		}
+// 	},
+// 	(req, res) => {
+//             res.sendFile(path.resolve("views", "usuario.html"));
+// 	}
+// );
+// app.post("/usuario/bienvenido", (req, res, next) => {
+//     const {usuario, contrasenia} = req.body
+//     if(validateUser(usuario, bcrypt.hashSync(contrasenia, 10))){
+//         res.render(path.resolve("views", "partials", "bienvenido.ejs"),{usuario: usuario})
+//     } else{
+//         req.session.user = {usuario, contrasenia}
+//         res.render(path.resolve("views", "partials", "bienvenido.ejs"),{usuario: usuario})
+//     }
+// });
 app.listen(3000, () => console.log("Alive"));
